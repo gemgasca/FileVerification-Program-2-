@@ -4,6 +4,7 @@
 #include "json.hpp"
 #include <map>
 #include <vector>
+#include <string>
 
 // the idea:
 // check to see if it is sorted
@@ -22,33 +23,21 @@ int main(int argc, char** argv) {
     }
     std::cout << jsonObject.dump(2) << std::endl;
 
-//    for (auto itr = jsonObject.begin(); itr != jsonObject.end(); ++itr) {
-//        std::cout << "key: " << itr.key() << " value: " << itr.value() << std::endl;
-//        std::string sample_name = itr.key();
-////        std::vector<int> data;
-//        auto data = itr.value();
-//
-////        if (typeid(itr.value()) == typeid(data)){
-////
-////        }
-//    }
-
-//    std::vector<int> vector;
-//    for (auto i = jsonObject.begin(); i != jsonObject.end(); i++) {
-//        jsonObject["Sample1"][i] >> vector;
-//    }
+    std::map<std::string, std::string> metadata;                    // gets json data
+    metadata["array_size"] = jsonObject["metadata"]["arraySize"];
+    metadata["num_samples"] = jsonObject["metadata"]["numSamples"];
+    metadata["file"] = json_name;
+    metadata["samplesWithInversions"] = " ";
 
 
+    for (int i = 1; i <= std::stoi(metadata["array_size"]); i++) {      // iterates over every sample in the file
+        std::string num = std::to_string(i);
+        std::string sample = "Sample";
+        sample.append(num);
+        std::vector<int> vector = jsonObject[sample][i];
+    }
 
-//    std::map<std::string, std::string> metadata;
-//    metadata["array_size"] = jsonObject["metadata"]["arraySize"];
-//    metadata["num_samples"] = jsonObject["metadata"]["numSamples"];
-//    metadata["file"] = json_name;
-//    metadata["samplesWithInversions"] = " ";
-//
-//
-//
-//    std::map<std::string, std::map< std::string, std::string>> json_output;
+//    std::map<std::string, std::map< std::string, std::string>> json_output;       // returned json to be printed to terminal
 //    json_output["metadata"] = metadata;
 //
 //    json_output
