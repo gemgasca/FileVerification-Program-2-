@@ -17,21 +17,28 @@ int main(int argc, char** argv) {
     std::ifstream json_file;
     json_file.open(json_name);
 
-//    if (json_file.is_open()){           // prints json object and its contents
-//        json_file >> jsonObject;
-//    }
-//    std::cout << jsonObject.dump(2) << std::endl;
-
-    for (auto itr = jsonObject.begin(); itr != jsonObject.end(); ++itr) {
-        std::cout << "key: " << itr.key() << " value: " << itr.value() << std::endl;
-        std::string sample_name = itr.key();
-//        std::vector<int> data;
-        auto data = itr.value();
-
-//        if (typeid(itr.value()) == typeid(data)){
-//
-//        }
+    if (json_file.is_open()){           // prints json object and its contents
+        json_file >> jsonObject;
     }
+    std::cout << jsonObject.dump(2) << std::endl;
+
+//    for (auto itr = jsonObject.begin(); itr != jsonObject.end(); ++itr) {
+//        std::cout << "key: " << itr.key() << " value: " << itr.value() << std::endl;
+//        std::string sample_name = itr.key();
+////        std::vector<int> data;
+//        auto data = itr.value();
+//
+////        if (typeid(itr.value()) == typeid(data)){
+////
+////        }
+//    }
+
+//    std::vector<int> vector;
+//    for (auto i = jsonObject.begin(); i != jsonObject.end(); i++) {
+//        jsonObject["Sample1"][i] >> vector;
+//    }
+
+
 
 //    std::map<std::string, std::string> metadata;
 //    metadata["array_size"] = jsonObject["metadata"]["arraySize"];
