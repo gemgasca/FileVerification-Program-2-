@@ -24,17 +24,20 @@ int main(int argc, char** argv) {
     std::cout << jsonObject.dump(2) << std::endl;
 
     std::map<std::string, std::string> metadata;                    // gets json data
-    metadata["array_size"] = jsonObject["metadata"]["arraySize"];
-    metadata["num_samples"] = jsonObject["metadata"]["numSamples"];
-    metadata["file"] = json_name;
-    metadata["samplesWithInversions"] = " ";
+//    metadata["array_size"] = jsonObject["metadata"]["arraySize"];
+//    metadata["num_samples"] = jsonObject["metadata"]["numSamples"];
+//    metadata["file"] = json_name;
+//    metadata["samplesWithInversions"] = " ";
 
-
-    for (int i = 1; i <= std::stoi(metadata["array_size"]); i++) {      // iterates over every sample in the file
+    for (int i = 1; i <= std::stoi("2"); i++) {      // iterates over every sample in the file, metadata["array_size")
         std::string num = std::to_string(i);
         std::string sample = "Sample";
         sample.append(num);
-        std::vector<int> vector = jsonObject[sample][i];
+        std::vector<int> vector;
+        for (auto itr = jsonObject[sample].begin(); itr != jsonObject[sample].end(); itr++) {
+            std::cout << *itr << std::endl;
+        }
+
     }
 
 //    std::map<std::string, std::map< std::string, std::string>> json_output;       // returned json to be printed to terminal
