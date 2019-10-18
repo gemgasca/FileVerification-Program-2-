@@ -5,6 +5,11 @@
 #include <map>
 #include <vector>
 
+// the idea:
+// check to see if it is sorted
+// if it isn't, return json that has stuff that isn't sorted
+// "prints the contents of a JSON object to the screen"
+
 int main(int argc, char** argv) {
     nlohmann::json jsonObject;
 
@@ -40,11 +45,6 @@ int main(int argc, char** argv) {
 //    json_output["metadata"] = metadata;
 //
 //    json_output
-
-    // check to see if it is sorted
-    // if it isn't, return json that has stuff that isn't sorted
-    // "prints the contents of a JSON object to the screen"
-
 
     return 0;
 }
