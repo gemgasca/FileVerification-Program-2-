@@ -7,10 +7,32 @@
 #include <string>
 #include <typeinfo>
 
-// the idea:
-// check to see if it is sorted
-// if it isn't, return json that has stuff that isn't sorted
-// "prints the contents of a JSON object to the screen"
+bool find_inversions(const std::vector<int>& values, nlohmann::json& jsonOutput, std::string sample_name){
+    int inversions = 0;
+    std::map<std::string, std::vector<int>> consecutive_inversions;         // checks for inversions
+    for (int i = 0; i < values.size() - 1; i++){
+        int next_val = i+1;
+        if (values[i] > values[next_val]){
+            inversions++;
+            std::vector<int> inverted_values;
+            inverted_values.push_back(values[i]);
+            inverted_values.push_back(values[next_val]);
+            consecutive_inversions[std::to_string(inversions)] = inverted_values;
+        }
+    }
+
+    if (consecutive_inversions.size() > 0) {
+        std::vector<int> this_sample;
+        for (int elem: values) {
+            this_sample.push_back(elem);
+        }
+        jsonOutput[sample_name]["ConsecutiveInversions"] = consecutive_inversions;
+        jsonOutput[sample_name]["sample"] = this_sample;
+        return true;
+    }
+
+    return false;
+}
 
 int main(int argc, char** argv) {
     nlohmann::json jsonObject;
@@ -24,29 +46,30 @@ int main(int argc, char** argv) {
     }
 //    std::cout << jsonObject.dump(2) << std::endl;
 
+    nlohmann::json jsonOutput;  // creates out put object
 
-//    std::map<std::string, std::string> metadata;                    // gets json data
-//    metadata["array_size"] = *jsonObject["metadata"]["arraySize"];
-//    metadata["num_samples"] = *jsonObject["metadata"]["numSamples"];
-//    metadata["file"] = json_name;
-//    metadata["samplesWithInversions"] = " ";
-
-    std::vector<int> vector;
-    for (int i = 1; i <= std::stoi("2"); i++) {      // iterates over every sample in the file, metadata["array_size")
+    int samplesWithInversions = 0;
+    for (int i = 1; i <= jsonObject["metadata"]["numSamples"]; i++) {      // iterates over every sample in the file
         std::string num = std::to_string(i);
-        std::string sample = "Sample";
-        sample.append(num);
+        std::string sample_name = "Sample";
+        sample_name.append(num);
+
         std::vector<int> vector;
-        for (auto itr = jsonObject[sample].begin(); itr != jsonObject[sample].end(); itr++) {
-            std::cout << *itr << std::endl;
-            vector.push_back(*itr);
+        for (int i = 0; i < jsonObject["metadata"]["arraySize"]; i++) {
+            auto x = jsonObject[sample_name][i];
+            vector.push_back(x);
         }
 
+        if (find_inversions(vector, jsonOutput, sample_name)){
+            samplesWithInversions++;
+        }
     }
 
-    for (auto elem: vector){
-        std::cout << "here " << elem << std::endl;
-    }
-
+    jsonOutput["metadata"]["array_size"] = jsonObject["metadata"]["arraySize"];
+    jsonOutput["metadata"]["num_samples"] = jsonObject["metadata"]["numSamples"];
+    jsonOutput["metadata"]["file"] = json_name;
+    jsonOutput["metadata"]["samplesWithInversions"] = samplesWithInversions;
+    std::cout << jsonOutput.dump(2) << std::endl;
+    
     return 0;
 }
